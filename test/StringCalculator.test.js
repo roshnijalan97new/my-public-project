@@ -27,3 +27,12 @@ test('should return the sum when newlines are used as delimiters', () => {
 test('should support different delimiters', () => {
     expect(add("//;\n1;2")).toBe(3);
 });
+
+//If there are multiple negative numbers, show all of them in the exception message, separated by commas.
+test('should throw an exception for negative numbers', () => {
+    expect(() => add("1,-2,3")).toThrow("Negative numbers not allowed: -2");
+});
+
+test('should show all negative numbers in the exception', () => {
+    expect(() => add("1,-2,-3")).toThrow("Negative numbers not allowed: -2, -3");
+});

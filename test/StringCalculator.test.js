@@ -1,5 +1,11 @@
 const add = require("../main/StringCalculator");
 
+let calculator;
+
+beforeEach(() => {
+  calculator = new StringCalculator();
+});
+
 // Simple add function Test Cases
 test("should return 0 for an empty string", () => {
   expect(add("")).toBe(0);
@@ -35,4 +41,14 @@ test("should throw an exception for negative numbers", () => {
 
 test("should show all negative numbers in the exception", () => {
   expect(() => add("1,-2,-3")).toThrow("Negative numbers not allowed: -2, -3");
+});
+
+test("GetCalledCount should return 0 initially", () => {
+  expect(calculator.GetCalledCount()).toBe(0);
+});
+
+test("GetCalledCount should return the number of times add was invoked", () => {
+  calculator.add("1,2");
+  calculator.add("3");
+  expect(calculator.GetCalledCount()).toBe(2);
 });

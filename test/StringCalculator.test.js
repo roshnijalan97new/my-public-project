@@ -12,11 +12,18 @@ test('should return the number itself when there is one number', () => {
 test('should return the sum of two numbers', () => {
     expect(add("1,2")).toBe(3);
 });
+
 //Allow the add method to handle any amount of numbers
 test('should return the sum of multiple numbers', () => {
     expect(add("1,2,3,4")).toBe(10);
 });
+
 //Allow the add method to handle new lines between numbers (instead of commas). ("1\n2,3" should return 6)
 test('should return the sum when newlines are used as delimiters', () => {
     expect(add("1\n2,3")).toBe(6);
+});
+
+//To change the delimiter, the beginning of the string will contain a separate line that looks like this: "//[delimiter]\n[numbers…]". For example, "//;\n1;2" where the delimiter is ";" should return 3.
+test('should support different delimiters', () => {
+    expect(add("//;\n1;2")).toBe(3);
 });

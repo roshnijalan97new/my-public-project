@@ -52,3 +52,9 @@ test("GetCalledCount should return the number of times add was invoked", () => {
   calculator.add("3");
   expect(calculator.GetCalledCount()).toBe(2);
 });
+
+//If numbers are greater than 1000 those should be ignored
+test('Numbers bigger than 1000 should be ignored', () => {
+  expect(calculator.add("2,1001")).toBe(2);
+  expect(calculator.add("1000,1001,6")).toBe(1006); // 1000 + 6
+});

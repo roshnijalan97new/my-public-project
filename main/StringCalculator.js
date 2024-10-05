@@ -16,7 +16,7 @@ class StringCalculator {
       numbers = numbers.split("\n")[1];
     }
 
-    const numArray = numbers.split(delimiters);
+    const numArray = numbers.split(delimiters) .filter(num => num <= 1000);  ;
     const negatives = numArray.filter((num) => parseInt(num) < 0);
 
     if (negatives.length > 0) {

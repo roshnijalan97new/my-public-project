@@ -71,3 +71,11 @@ test('should handle multiple delimiters', () => {
   expect(calculator.add("//[***][%%]\n1***2%%3")).toBe(6);  // Multiple delimiters '***' and '%%'
   expect(calculator.add("//[!][@]\n4!5@6")).toBe(15);  // Multiple delimiters '!' and '@'
 });
+
+//handle multiple delimiters with length longer than one char 
+test('should handle multiple delimiters', () => {
+  expect(calculator.add("//[*][%]\n1*2%3")).toBe(6);  // Multiple delimiters '*' and '%'
+  expect(calculator.add("//[**][%%]\n1**2%%3")).toBe(6);  // Multi-character delimiters '**' and '%%'
+  expect(calculator.add("//[###][@@]\n1###2@@3")).toBe(6);  // Multi-character delimiters '###' and '@@'
+  expect(calculator.add("//[!!][$$$]\n1!!2$$$3")).toBe(6);  // Multi-character delimiters '!!' and '$$$'
+});

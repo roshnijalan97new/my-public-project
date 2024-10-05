@@ -64,3 +64,10 @@ test('should handle custom delimiters of any length', () => {
   expect(calculator.add("//[***]\n1***2***3")).toBe(6);
   expect(calculator.add("//[%%]\n4%%5%%6")).toBe(15);
 });
+
+//Allow multiple delimiters
+test('should handle multiple delimiters', () => {
+  expect(calculator.add("//[*][%]\n1*2%3")).toBe(6);  // Multiple delimiters '*' and '%'
+  expect(calculator.add("//[***][%%]\n1***2%%3")).toBe(6);  // Multiple delimiters '***' and '%%'
+  expect(calculator.add("//[!][@]\n4!5@6")).toBe(15);  // Multiple delimiters '!' and '@'
+});

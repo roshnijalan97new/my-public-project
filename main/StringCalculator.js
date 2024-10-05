@@ -9,22 +9,47 @@ class StringCalculator {
       return 0;
     }
 
-    let delimiters = /[\n,]/; //it should separate numbers by newline and comma character
+    let delimiter = /[\n,]/; // Default delimiter: newline or comma
+    let numString = numbers;
+
+    // Check for a custom delimiter
     if (numbers.startsWith("//")) {
-      const delimiterInfo = numbers.split("\n")[0];
-      delimiters = new RegExp(delimiterInfo[2]);
-      numbers = numbers.split("\n")[1];
+      // Check for multi-character delimiter in the format //[***]\n
+      const multiCharDelimiterMatch = numbers.match(/^\/\/\[(.*)\]\n/);
+      if (multiCharDelimiterMatch) {
+        // Create a regex for multi-character delimiter, ensuring special characters are escaped
+        delimiter = new RegExp(
+          multiCharDelimiterMatch[1].replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
+          "g"
+        );
+        numString = numbers.slice(multiCharDelimiterMatch[0].length);
+      } else {
+        // Check for single character delimiter in the format //;\n
+        const singleCharDelimiterMatch = numbers.match(/^\/\/(.)\n/);
+        if (singleCharDelimiterMatch) {
+          delimiter = new RegExp(
+            singleCharDelimiterMatch[1].replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
+            "g"
+          );
+          numString = numbers.slice(singleCharDelimiterMatch[0].length);
+        }
+      }
     }
 
-    const numArray = numbers.split(delimiters) .filter(num => num <= 1000);  ;
+    // Split the numbers string using the identified delimiter
+    const numArray = numString
+      .split(delimiter)
+      .map((num) => parseInt(num))
+      .filter((num) => !isNaN(num) && num <= 1000); // Ignore numbers > 1000
     const negatives = numArray.filter((num) => parseInt(num) < 0);
 
     if (negatives.length > 0) {
       throw new Error(`Negative numbers not allowed: ${negatives.join(", ")}`);
     }
 
-    return numArray.reduce((total, num) => total + parseInt(num), 0);
+    return numArray.reduce((total, num) => total + num, 0); // Return the sum
   }
+
   GetCalledCount() {
     return this.callCount;
   }

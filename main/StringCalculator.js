@@ -15,13 +15,12 @@ class StringCalculator {
     // Check for a custom delimiter
     if (numbers.startsWith("//")) {
       // Check for multi-character delimiter in the format //[***]\n
-      const multiCharDelimiterMatch = numbers.match(/^\/\/\[(.*)\]\n/);
+      const multiCharDelimiterMatch = numbers.match(/^\/\/(\[.*?\])+\n/);
       if (multiCharDelimiterMatch) {
-        // Create a regex for multi-character delimiter, ensuring special characters are escaped
-        delimiter = new RegExp(
-          multiCharDelimiterMatch[1].replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
-          "g"
-        );
+       // Extract all delimiters between []
+        const delimiters = [...numbers.matchAll(/\[(.*?)\]/g)].map(match => match[1]);
+          // Create a regex to match any of the delimiters
+        delimiter = new RegExp(delimiters.map(d => d.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|'), 'g');
         numString = numbers.slice(multiCharDelimiterMatch[0].length);
       } else {
         // Check for single character delimiter in the format //;\n

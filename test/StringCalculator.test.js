@@ -58,3 +58,9 @@ test('Numbers bigger than 1000 should be ignored', () => {
   expect(calculator.add("2,1001")).toBe(2);
   expect(calculator.add("1000,1001,6")).toBe(1006); // 1000 + 6
 });
+
+//If the length of delimiters is increased
+test('should handle custom delimiters of any length', () => {
+  expect(calculator.add("//[***]\n1***2***3")).toBe(6);
+  expect(calculator.add("//[%%]\n4%%5%%6")).toBe(15);
+});
